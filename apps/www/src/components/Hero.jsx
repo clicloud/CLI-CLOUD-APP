@@ -12,10 +12,28 @@ const Hero = () => {
         <p className="text-xs sm:text-sm lg:text-base text-white/60 italic" aria-label="Tagline">
           Privacy isn't optional.
         </p>
+        <div className="flex flex-col sm:flex-row gap-3 pt-2">
+          <a
+            href="https://app.cli.cloud/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-6 py-3 bg-white text-black font-medium rounded hover:bg-white/90 transition-all duration-300 text-sm lg:text-base inline-flex items-center justify-center hoverable"
+            style={{ boxShadow: '0 0 40px 8px rgba(255, 255, 255, 0.15)' }}
+          >
+            Launch App
+          </a>
+          <a
+            href="https://docs.cli.cloud/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-6 py-3 border border-white/20 text-white/80 font-medium rounded hover:bg-white/5 hover:text-white transition-all duration-300 text-sm lg:text-base inline-flex items-center justify-center hoverable"
+          >
+            Read Docs
+          </a>
+        </div>
       </div>
     </section>
   )
 }
 
 export default Hero
-
