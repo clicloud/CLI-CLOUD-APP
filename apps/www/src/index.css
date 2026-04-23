@@ -1,0 +1,139 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    overflow-y: auto;
+  }
+  
+  @media (min-width: 1024px) {
+    html {
+      overflow-y: hidden;
+    }
+  }
+  
+  body {
+    @apply overflow-y-auto lg:overflow-hidden;
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+}
+
+@layer utilities {
+  .grayscale-filter {
+    filter: grayscale(100%) contrast(1.1);
+  }
+  
+  /* Hide video controls completely */
+  .video-background::-webkit-media-controls {
+    display: none !important;
+  }
+  .video-background::-webkit-media-controls-enclosure {
+    display: none !important;
+  }
+  .video-background::-webkit-media-controls-panel {
+    display: none !important;
+  }
+  .video-background::-webkit-media-controls-play-button {
+    display: none !important;
+  }
+  .video-background::-webkit-media-controls-start-playback-button {
+    display: none !important;
+  }
+}
+
+/* Feature cards - mobile/desktop responsive borders */
+@media (min-width: 640px) {
+  .feature-card-border {
+    border-right: 1px dashed rgba(255, 255, 255, 0.3);
+  }
+}
+
+/* Disable hover effect on mobile */
+@media (max-width: 639px) {
+  .feature-card:hover {
+    background-color: transparent !important;
+  }
+}
+
+/* Blur effect when hovering over interactive elements */
+.hoverable {
+  transition: filter 0.3s ease, opacity 0.3s ease;
+}
+
+/* When any hoverable element is hovered, blur siblings */
+.hover-container:has(.hoverable:hover) .hoverable:not(:hover) {
+  filter: blur(3px);
+  opacity: 0.6;
+}
+
+/* Keep hovered element sharp */
+.hoverable:hover {
+  filter: blur(0) !important;
+  opacity: 1 !important;
+}
+
+/* Darken video overlay when hovering on interactive elements */
+.main-container:has(.hoverable:hover) .video-overlay {
+  opacity: 0.85 !important;
+}
+
+/* Vignette Effect - Dark edges fading to transparent center */
+.vignette-overlay {
+  background: radial-gradient(
+    ellipse at center,
+    transparent 0%,
+    transparent 40%,
+    rgba(0, 0, 0, 0.3) 70%,
+    rgba(0, 0, 0, 0.6) 100%
+  );
+  pointer-events: none;
+}
+
+/* Pixel/Tech Grid Overlay Effect */
+.pixel-overlay {
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 4px 4px;
+  opacity: 0.8;
+}
+
+/* Scanline effect */
+.pixel-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.1) 2px,
+    rgba(0, 0, 0, 0.1) 4px
+  );
+  pointer-events: none;
+}
+
+/* Partners logo slider animation */
+@keyframes scroll-logos {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.partners-track {
+  animation: scroll-logos 30s linear infinite;
+  width: max-content;
+}
+
+.partners-container:hover .partners-track {
+  animation-play-state: paused;
+}
+
+.partner-logo {
+  cursor: pointer;
+}
+
