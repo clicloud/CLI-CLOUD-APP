@@ -14,25 +14,50 @@ function App() {
     }
 
     const mediaQuery = window.matchMedia('(min-width: 1024px) and (prefers-reduced-motion: no-preference)')
+    const reducedDataQuery = window.matchMedia('(prefers-reduced-data: reduce)')
+    const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection
     const updateVideoPreference = () => {
-      setShowVideo(mediaQuery.matches)
+      const slowConnection = connection && ['slow-2g', '2g'].includes(connection.effectiveType)
+      const shouldShowVideo = mediaQuery.matches && !reducedDataQuery.matches && !connection?.saveData && !slowConnection
 
-      if (!mediaQuery.matches) {
+      setShowVideo(shouldShowVideo)
+
+      if (!shouldShowVideo) {
         setVideoLoaded(false)
       }
     }
 
     updateVideoPreference()
 
+    if (connection && typeof connection.addEventListener === 'function') {
+      connection.addEventListener('change', updateVideoPreference)
+    }
+
     if (typeof mediaQuery.addEventListener === 'function') {
       mediaQuery.addEventListener('change', updateVideoPreference)
+      reducedDataQuery.addEventListener('change', updateVideoPreference)
 
-      return () => mediaQuery.removeEventListener('change', updateVideoPreference)
+      return () => {
+        mediaQuery.removeEventListener('change', updateVideoPreference)
+        reducedDataQuery.removeEventListener('change', updateVideoPreference)
+
+        if (connection && typeof connection.removeEventListener === 'function') {
+          connection.removeEventListener('change', updateVideoPreference)
+        }
+      }
     }
 
     mediaQuery.addListener(updateVideoPreference)
+    reducedDataQuery.addListener(updateVideoPreference)
 
-    return () => mediaQuery.removeListener(updateVideoPreference)
+    return () => {
+      mediaQuery.removeListener(updateVideoPreference)
+      reducedDataQuery.removeListener(updateVideoPreference)
+
+      if (connection && typeof connection.removeEventListener === 'function') {
+        connection.removeEventListener('change', updateVideoPreference)
+      }
+    }
   }, [])
 
   return (
