@@ -1,7 +1,23 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 const Header = () => {
   const [socialOpen, setSocialOpen] = useState(false)
+
+  useEffect(() => {
+    if (!socialOpen) {
+      return undefined
+    }
+
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        setSocialOpen(false)
+      }
+    }
+
+    document.addEventListener('keydown', handleKeyDown)
+
+    return () => document.removeEventListener('keydown', handleKeyDown)
+  }, [socialOpen])
 
   return (
     <header className="flex justify-between items-center px-8 lg:px-16 py-5 flex-shrink-0 bg-black">
@@ -23,7 +39,11 @@ const Header = () => {
         {/* Social Dropdown */}
         <div className="relative">
           <button
+            type="button"
             onClick={() => setSocialOpen(!socialOpen)}
+            aria-expanded={socialOpen}
+            aria-haspopup="menu"
+            aria-controls="social-menu"
             className="text-white/80 hover:text-white transition-colors flex items-center gap-1 text-sm lg:text-base hoverable"
           >
             Social
@@ -37,14 +57,20 @@ const Header = () => {
               <div 
                 className="fixed inset-0 z-40" 
                 onClick={() => setSocialOpen(false)}
+                aria-hidden="true"
               />
               
               {/* Dropdown Content */}
-              <div className="absolute right-0 top-full mt-2 bg-black/90 backdrop-blur-sm border border-white/20 rounded-lg p-3 z-50 min-w-[120px]">
+              <div
+                id="social-menu"
+                role="menu"
+                className="absolute right-0 top-full mt-2 bg-black/90 backdrop-blur-sm border border-white/20 rounded-lg p-3 z-50 min-w-[120px]"
+              >
                 <a
                   href="https://x.com/clidotcloud"
                   target="_blank"
                   rel="noopener noreferrer"
+                  role="menuitem"
                   className="flex items-center gap-2 text-white/80 hover:text-white transition-colors text-sm"
                   onClick={() => setSocialOpen(false)}
                 >
@@ -63,4 +89,3 @@ const Header = () => {
 }
 
 export default Header
-
