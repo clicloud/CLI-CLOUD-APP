@@ -54,7 +54,7 @@ const deployStages = [
   { label: 'Running health check...', progress: 100 },
 ]
 
-const slugPattern = /^[a-z0-9]([a-z0-9-]{1,28}[a-z0-9])?$/
+const slugPattern = /^[a-z0-9][a-z0-9-]{1,28}[a-z0-9]$/
 
 function DeployDialog({ open, onOpenChange }) {
   const [step, setStep] = useState('select')
@@ -159,10 +159,36 @@ function DeployDialog({ open, onOpenChange }) {
     setEnvVars((current) => current.filter((_, envIndex) => envIndex !== index))
   }
 
+  const fallbackCopyUrl = () => {
+    const textarea = document.createElement('textarea')
+    textarea.value = projectUrl
+    textarea.setAttribute('readonly', '')
+    textarea.style.position = 'fixed'
+    textarea.style.left = '-9999px'
+    document.body.appendChild(textarea)
+    textarea.select()
+
+    try {
+      return document.execCommand('copy')
+    } finally {
+      document.body.removeChild(textarea)
+    }
+  }
+
   const copyUrl = async () => {
-    await navigator.clipboard?.writeText(projectUrl)
-    setCopied(true)
-    window.setTimeout(() => setCopied(false), 2000)
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(projectUrl)
+      } else if (!fallbackCopyUrl()) {
+        throw new Error('Clipboard unavailable')
+      }
+
+      setCopied(true)
+      window.setTimeout(() => setCopied(false), 2000)
+    } catch (error) {
+      console.warn('Could not copy project URL', error)
+      setCopied(false)
+    }
   }
 
   return (
@@ -410,10 +436,7 @@ function DeployDialog({ open, onOpenChange }) {
               <button
                 type="button"
                 className="rounded-lg border border-white/15 px-5 py-3 text-sm font-medium text-white/70 transition-all duration-150 hover:border-white/30 hover:text-white"
-                onClick={() => {
-                  setProjectName('')
-                  setStep('select')
-                }}
+                onClick={resetDialog}
               >
                 Deploy another
               </button>
