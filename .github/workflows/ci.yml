@@ -21,15 +21,20 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
+          cache-dependency-path: apps/www/package-lock.json
 
-      - name: Install root dependencies
+      - name: Install www dependencies
+        working-directory: apps/www
         run: npm ci
 
       - name: Lint
+        working-directory: apps/www
         run: npm run lint --if-present
 
       - name: Build
+        working-directory: apps/www
         run: npm run build --if-present
 
       - name: Run tests
+        working-directory: apps/www
         run: npm test --if-present
