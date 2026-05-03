@@ -91,7 +91,6 @@ function App() {
             className={`w-full h-full object-cover grayscale-filter transition-opacity duration-500 video-background ${
               videoLoaded ? 'opacity-100' : 'opacity-0'
             }`}
-            x-webkit-airplay="deny"
           >
             <source src="/BG.mp4" type="video/mp4" />
           </video>
