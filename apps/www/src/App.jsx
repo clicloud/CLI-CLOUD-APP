@@ -3,10 +3,12 @@ import Header from './components/Header'
 import Hero from './components/Hero'
 import Partners from './components/Partners'
 import Features from './components/Features'
+import DeployDialog from './components/DeployDialog'
 
 function App() {
   const [videoLoaded, setVideoLoaded] = useState(false)
   const [showVideo, setShowVideo] = useState(false)
+  const [deployDialogOpen, setDeployDialogOpen] = useState(false)
 
   useEffect(() => {
     if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
@@ -61,7 +63,7 @@ function App() {
   }, [])
 
   return (
-    <div className="relative w-screen min-h-screen bg-black main-container overflow-y-auto">
+    <div className="relative w-screen min-h-screen bg-black main-container overflow-y-auto text-white">
       {/* Video Background with Black & White Filter - Fixed */}
       <div className="fixed inset-0 z-0">
         {/* Poster Image - Shows while video loads */}
@@ -115,7 +117,7 @@ function App() {
         {/* Middle area - Hero at top, video visible */}
         <div className="flex-1 flex flex-col">
           {/* Hero at top left */}
-          <Hero />
+          <Hero onStartDeploy={() => setDeployDialogOpen(true)} />
           
           {/* Spacer - minimal spacing */}
           <div className="flex-1 min-h-[5vh] sm:min-h-[10vh]" />
@@ -125,8 +127,13 @@ function App() {
         </div>
         
         {/* Bottom Frame - Solid background, video doesn't show through */}
-        <Features />
+        <Features onStartDeploy={() => setDeployDialogOpen(true)} />
       </div>
+
+      <DeployDialog
+        open={deployDialogOpen}
+        onOpenChange={setDeployDialogOpen}
+      />
     </div>
   )
 }
