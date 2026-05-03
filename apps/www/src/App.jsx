@@ -3,6 +3,7 @@ import Header from './components/Header'
 import Hero from './components/Hero'
 import Partners from './components/Partners'
 import Features from './components/Features'
+import Catalog from './components/Catalog'
 
 function App() {
   const [videoLoaded, setVideoLoaded] = useState(false)
@@ -126,6 +127,9 @@ function App() {
         
         {/* Bottom Frame - Solid background, video doesn't show through */}
         <Features />
+
+        {/* Product proof - deployable container templates */}
+        <Catalog />
       </div>
     </div>
   )
