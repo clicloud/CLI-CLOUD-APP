@@ -3,6 +3,21 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --cli-primary: #EA5600;
+    --cli-primary-hover: #FF6A1A;
+    --cli-background: #0a0a0a;
+    --cli-card: #141414;
+    --cli-border: #2a2a2a;
+    --cli-muted: rgba(255, 255, 255, 0.62);
+    --text-hero: clamp(3rem, 8vw, 5.25rem);
+    --text-h1: 3rem;
+    --text-h2: 2.25rem;
+    --text-h3: 1.25rem;
+    --text-body: 1rem;
+    --text-caption: 0.875rem;
+  }
+
   html {
     overflow-y: auto;
   }
@@ -16,6 +31,9 @@
   body {
     @apply overflow-y-auto lg:overflow-hidden;
     font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background-color: var(--cli-background);
+    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+    background-size: 24px 24px;
   }
 }
 
@@ -39,13 +57,6 @@
   }
   .video-background::-webkit-media-controls-start-playback-button {
     display: none !important;
-  }
-}
-
-/* Feature cards - mobile/desktop responsive borders */
-@media (min-width: 640px) {
-  .feature-card-border {
-    border-right: 1px dashed rgba(255, 255, 255, 0.3);
   }
 }
 
@@ -93,10 +104,10 @@
 /* Pixel/Tech Grid Overlay Effect */
 .pixel-overlay {
   background-image: 
-    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
   background-size: 4px 4px;
-  opacity: 0.8;
+  opacity: 0.55;
 }
 
 /* Scanline effect */
@@ -137,3 +148,16 @@
   cursor: pointer;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .partners-track {
+    animation: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition: none !important;
+    animation: none !important;
+  }
+}

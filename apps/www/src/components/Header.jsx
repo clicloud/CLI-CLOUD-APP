@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const Header = () => {
   const [socialOpen, setSocialOpen] = useState(false)
@@ -20,19 +20,19 @@ const Header = () => {
   }, [socialOpen])
 
   return (
-    <header className="flex justify-between items-center px-8 lg:px-16 py-5 flex-shrink-0 bg-black">
+    <header className="flex flex-shrink-0 items-center justify-between border-b border-white/8 bg-black/90 px-6 py-5 backdrop-blur-sm sm:px-8 lg:px-16">
       {/* Logo */}
       <div className="flex items-center">
-        <img src="/assets/logo.svg" alt="Logo" className="h-[1.6rem] w-auto" />
+        <img src="/assets/logo.svg" alt="Logo" className="h-[1.6rem] w-auto opacity-90" />
       </div>
 
       {/* Navigation */}
-      <nav className="flex items-center gap-6 lg:gap-10 hover-container relative">
+      <nav className="relative flex items-center gap-5 sm:gap-6 lg:gap-10 hover-container">
         {/* Media button hidden for now */}
         {/* <a href="#" className="text-white/80 hover:text-white transition-colors text-sm lg:text-base hoverable">
           Media
         </a> */}
-        <a href="https://docs.cli.cloud/" target="_blank" rel="noopener noreferrer" className="text-white/80 hover:text-white transition-colors text-sm lg:text-base hoverable">
+        <a href="https://docs.cli.cloud/" target="_blank" rel="noopener noreferrer" className="text-sm text-white/76 transition-colors hover:text-white lg:text-base hoverable">
           Docs
         </a>
         
@@ -44,7 +44,7 @@ const Header = () => {
             aria-expanded={socialOpen}
             aria-haspopup="menu"
             aria-controls="social-menu"
-            className="text-white/80 hover:text-white transition-colors flex items-center gap-1 text-sm lg:text-base hoverable"
+            className="flex items-center gap-1 text-sm text-white/76 transition-colors hover:text-white lg:text-base hoverable"
           >
             Social
             <span className="text-xs opacity-60">▼</span>
@@ -71,7 +71,7 @@ const Header = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   role="menuitem"
-                  className="flex items-center gap-2 text-white/80 hover:text-white transition-colors text-sm"
+                  className="flex items-center gap-2 text-sm text-white/80 transition-colors hover:text-white"
                   onClick={() => setSocialOpen(false)}
                 >
                   <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
