@@ -29,11 +29,11 @@ jobs:
 
       - name: Lint
         working-directory: apps/www
-        run: npm run lint --if-present
+        run: npm run lint
 
       - name: Build
         working-directory: apps/www
-        run: npm run build --if-present
+        run: npm run build
 
       - name: Run tests
         working-directory: apps/www

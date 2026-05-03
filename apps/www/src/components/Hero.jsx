@@ -13,7 +13,7 @@ const Hero = () => {
             transforming cloud computing.
           </h1>
           <p className="text-xs sm:text-sm lg:text-base text-white/60 italic" aria-label="Tagline">
-            Privacy isn't optional.
+            Privacy isn&apos;t optional.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 pt-2">
             <button
