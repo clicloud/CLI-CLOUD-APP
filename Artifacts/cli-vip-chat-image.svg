@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="vipGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#D4AF37;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#F5D060;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#D4AF37;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#16213e;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <!-- Background circle -->
+  <circle cx="256" cy="256" r="250" fill="url(#bgGrad)" />
+  <!-- Cloud shape - CLI cloud graphic in gold/VIP color -->
+  <g transform="translate(256,240)" filter="url(#glow)">
+    <!-- Main cloud body -->
+    <path d="M-80,20 
+             Q-80,-20 -50,-40 
+             Q-30,-70 10,-70 
+             Q40,-70 60,-45 
+             Q80,-55 95,-35 
+             Q115,-30 115,-10 
+             Q115,10 100,20 
+             Z" 
+          fill="url(#vipGrad)" opacity="0.95"/>
+    <!-- Small cloud bump left -->
+    <ellipse cx="-40" cy="-10" rx="35" ry="30" fill="url(#vipGrad)" opacity="0.9"/>
+    <!-- Small cloud bump center -->
+    <ellipse cx="20" cy="-30" rx="40" ry="35" fill="url(#vipGrad)" opacity="0.9"/>
+    <!-- Small cloud bump right -->
+    <ellipse cx="75" cy="-15" rx="30" ry="25" fill="url(#vipGrad)" opacity="0.9"/>
+  </g>
+  <!-- CLI text -->
+  <text x="256" y="310" text-anchor="middle" font-family="monospace" font-size="72" font-weight="bold" fill="#F5D060" letter-spacing="8">CLI</text>
+  <!-- VIP badge -->
+  <text x="256" y="370" text-anchor="middle" font-family="monospace" font-size="36" font-weight="bold" fill="#D4AF37" letter-spacing="12" opacity="0.85">VIP</text>
+  <!-- Subtle border ring -->
+  <circle cx="256" cy="256" r="245" fill="none" stroke="#D4AF37" stroke-width="2" opacity="0.3"/>
+</svg>
