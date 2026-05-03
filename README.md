@@ -1,56 +1,39 @@
-# CLI-CLOUD-APP
+# CLI Cloud
 
-A permissionless compute layer. Deploy containers in seconds.
+> A permissionless compute layer
 
-## Architecture
-
-Monorepo managed under the `clicloud` GitHub organization.
+## Repository Structure
 
 ```
 CLI-CLOUD-APP/
+├── .docs/                        # Architecture docs, planning specs, guides
+│   └── planning/                 # Detailed planning documents
+├── .github/workflows/            # CI/CD pipelines
+├── Artifacts/                    # Generated deliverables, specs, and research
 ├── apps/
-│   ├── backend/       # API server, container orchestration, deployment engine
-│   ├── frontend/      # Deployment interface and portal (Next.js)
-│   └── www/           # Public landing page (Vite + React + Tailwind)
-├── packages/          # Shared libraries and utilities
-├── .docs/             # Architecture records, planning specs, operational docs
-│   └── planning/      # Executable to-dos, code reviews, UX specs, design specs
-├── .github/
-│   └── workflows/     # CI pipeline (lint, build, typecheck)
-├── AGENTS.md          # Contributor rules and PR conventions
+│   ├── backend/                  # API server
+│   ├── frontend/                 # Dashboard UI
+│   └── www/                      # Landing page (Vite + React)
+├── packages/
+│   └── container-templates/      # One-click deploy container templates
+│       ├── nextjs-starter/       # Full-stack React framework (Node.js 20)
+│       ├── fastapi-starter/      # Python API + SQLite (Python 3.11)
+│       ├── telegram-bot-starter/ # Telegram bot (long-running process)
+│       ├── express-starter/      # Minimal Node.js API server
+│       └── static-starter/       # Static HTML site
 └── README.md
 ```
 
-## Quick Start
+## Container Templates
 
-```bash
-# Install dependencies (per app)
-cd apps/www && npm install
-cd apps/backend && npm install
+CLI offers one-click deployment of containerized applications. Templates live in `packages/container-templates/` and include Dockerfiles, compose configs, and README instructions for each stack.
 
-# Development
-cd apps/www && npm run dev
-```
+See the [Container Catalog Spec](.docs/container-catalog-spec.md) for the full catalog with runtime configurations, ports, storage, and build steps.
 
-## Key Documentation
+## Artifacts
 
-| Document | Location |
-|----------|----------|
-| Container catalog spec | `.docs/container-catalog-spec.md` |
-| Landing-v2 code review | `.docs/planning/landing-v2-code-review.md` |
-| UX and design review | `.docs/planning/landing-v2-ux-design-review-comprehensive.md` |
-| Deploy dialog UI spec | `.docs/planning/deploy-dialog-ui-spec.md` |
-| Welcome/onboarding spec | `.docs/planning/welcome-onboarding-mode-spec.md` |
-| Linting and build checks | `.docs/planning/landing-v2-linting-build-checks.md` |
-| Visual polish guide | `.docs/planning/landing-page-visual-polish.md` |
-| Community feedback messaging | `.docs/planning/community-feedback-messaging.md` |
-| Weekly progress brief template | `.docs/weekly-progress-brief-template.md` |
-| Backend README | `apps/backend/README.md` |
+The `Artifacts/` directory contains generated specifications, research documents, messaging templates, and design assets produced during development. Each artifact includes metadata describing its origin, purpose, and related task context.
 
 ## Contributing
 
-See `AGENTS.md` for pull request rules. One concept per PR. Smallest working change.
-
-## License
-
-Proprietary. All rights reserved.
+See [AGENTS.md](AGENTS.md) for contribution guidelines. One concept per PR, clean commit messages, all changes documented in `.docs/`.
