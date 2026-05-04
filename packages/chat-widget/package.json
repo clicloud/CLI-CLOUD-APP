@@ -1,57 +1,44 @@
 {
   "name": "@clicloud/chat-widget",
   "version": "0.1.0",
-  "description": "Embeddable CLI chat widget — drop-in script tag or npm package for AI-powered support chat on any website.",
-  "keywords": [
-    "cli",
-    "cli.cloud",
-    "chat",
-    "widget",
-    "support",
-    "embeddable",
-    "live-chat",
-    "ai-chat"
-  ],
-  "author": "cli.cloud",
-  "license": "MIT",
-  "homepage": "https://cli.cloud",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/clicloud/CLI-CLOUD-APP.git",
-    "directory": "packages/chat-widget"
-  },
-  "main": "dist/cli-chat.umd.cjs",
-  "module": "dist/cli-chat.esm.js",
+  "description": "Embeddable CLI chat widget — drop-in script tag or npm package for Clide-powered support chat on any website",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/cli-chat.esm.js",
-      "require": "./dist/cli-chat.umd.cjs",
-      "default": "./dist/cli-chat.esm.js"
-    },
-    "./package.json": "./package.json"
-  },
+  "browser": "dist/widget.umd.js",
   "files": [
-    "dist",
-    "src",
+    "dist/",
+    "src/",
     "README.md"
   ],
-  "publishConfig": {
-    "access": "public",
-    "registry": "https://registry.npmjs.org"
-  },
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c --watch",
-    "typecheck": "tsc --noEmit",
-    "lint": "eslint src --ext .ts",
+    "clean": "rm -rf dist",
     "prepublishOnly": "npm run build"
   },
+  "keywords": [
+    "chat",
+    "widget",
+    "support",
+    "ai",
+    "clide",
+    "cli-cloud",
+    "embed"
+  ],
+  "author": "cli.cloud",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/clicloud/CLI-CLOUD-APP",
+    "directory": "packages/chat-widget"
+  },
   "devDependencies": {
-    "@rollup/plugin-typescript": "^12.1.0",
-    "rollup": "^4.40.0",
-    "tslib": "^2.8.0",
-    "typescript": "^5.9.0"
-  }
+    "rollup": "^4.0.0",
+    "@rollup/plugin-typescript": "^11.0.0",
+    "@rollup/plugin-terser": "^0.4.0",
+    "typescript": "^5.0.0",
+    "tslib": "^2.6.0"
+  },
+  "dependencies": {}
 }

@@ -1,129 +1,117 @@
 # @clicloud/chat-widget
 
-Embeddable CLI chat widget — drop-in script tag or npm package for AI-powered support chat on any website.
+Embeddable Clide-powered chat widget for any website. Drop-in script tag or npm package.
 
 ## Install
 
-### Script tag (CDN)
-
+### Script Tag (CDN)
 ```html
 <script src="https://cdn.cli.cloud/widget.js" data-org="your-org-id"></script>
 ```
 
 ### npm
-
 ```bash
 npm install @clicloud/chat-widget
 ```
 
 ```ts
-import { CLIChat, Position } from "@clicloud/chat-widget";
+import { CliChatSDK } from '@clicloud/chat-widget';
 
-CLIChat.configure("your-org-id", {
-  position: Position.Right,
-  primaryColor: "#EA5600",
-  greeting: "Hi! How can we help?",
-  theme: "dark",
+const chat = new CliChatSDK({
+  orgId: 'your-org-id',
+  assistantName: 'Support',
+  themeColor: '#EA5600',
+  greeting: 'Hey! How can I help?',
+});
+
+chat.mount();
+```
+
+## Configuration
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `orgId` | string | required | Your organization ID |
+| `position` | `'bottom-right' \| 'bottom-left'` | `'bottom-right'` | Bubble position |
+| `themeColor` | string | `'#EA5600'` | Primary color (hex) |
+| `assistantName` | string | `'Clide'` | Display name in header |
+| `greeting` | string | `'Hey! How can I help you today?'` | First message |
+| `apiUrl` | string | `'https://api.cli.cloud'` | API base URL |
+| `autoOpenDelay` | number | `0` | Auto-open after N seconds |
+| `showBranding` | boolean | `true` | Show "Powered by CLI" |
+| `bubbleIcon` | string | CLI logo | Custom bubble icon URL |
+| `locale` | string | `'en'` | Language code |
+
+## Script Tag Data Attributes
+
+All config options are available as `data-*` attributes:
+
+```html
+<script
+  src="https://cdn.cli.cloud/widget.js"
+  data-org="your-org-id"
+  data-position="bottom-left"
+  data-theme="#3366ff"
+  data-name="Acme Support"
+  data-greeting="Need help? Ask away!"
+  data-auto-open="5"
+  data-branding="true"
+></script>
+```
+
+## API (window.$cliChat)
+
+Crisp-style command queue — call before or after the script loads:
+
+```js
+window.$cliChat = window.$cliChat || [];
+window.$cliChat.push('open');
+window.$cliChat.push('sendMessage', 'Hello!');
+window.$cliChat.push('configure', { themeColor: '#0066ff' });
+```
+
+### Methods
+
+- `open()` — Open the chat panel
+- `close()` — Close the chat panel
+- `toggle()` — Toggle open/closed
+- `sendMessage(text)` — Send a message programmatically
+- `configure(config)` — Update configuration
+- `destroy()` — Remove widget from DOM
+
+### Events
+
+```js
+window.$cliChat.push('on', 'message:received', (msg) => {
+  console.log('Reply:', msg.content);
 });
 ```
 
-## Configuration Options
-
-| Option | Type | Default | Description |
-|---|---|---|---|
-| `position` | `"left"` or `"right"` | `"right"` | Widget position on the page |
-| `primaryColor` | `string` | `"#EA5600"` | Brand color (CLI orange) |
-| `greeting` | `string` | `"Hi! How can we help?"` | First message shown |
-| `locale` | `string` | `"en"` | Language locale |
-| `theme` | `"light"` or `"dark"` or `"auto"` | `"dark"` | Color theme |
-| `autoload` | `boolean` | `true` | Auto-load on configure |
-| `widgetUrl` | `string` | CDN URL | Override loader URL for self-hosted |
-
-## API
-
-```ts
-// Show/hide the entire widget
-CLIChat.show();
-CLIChat.hide();
-
-// Open/close the chat panel
-CLIChat.open();
-CLIChat.close();
-
-// Send a message programmatically
-CLIChat.chat.send("Hello!");
-
-// Set visitor metadata
-CLIChat.chat.setVisitor({ name: "John", email: "john@example.com" });
-
-// Escalate to human support
-CLIChat.chat.escalateToHuman();
-
-// Clear conversation
-CLIChat.chat.clear();
-
-// Event listeners
-CLIChat.on("message", (msg) => console.log(msg));
-CLIChat.on("open", () => console.log("Chat opened"));
-CLIChat.off("message");
-```
+| Event | Data |
+|-------|------|
+| `widget:opened` | — |
+| `widget:closed` | — |
+| `message:sent` | `ChatMessage` |
+| `message:received` | `ChatMessage` |
+| `session:created` | `ChatSession` |
+| `escalation:requested` | `{ sessionId, lastMessage }` |
+| `error` | `{ code, message }` |
 
 ## Architecture
 
-```
-Browser (Widget JS — this package)
-  ↕ HTTPS
-CLI Chat Gateway API (api.cli.cloud/v1/chat)
-  ↕
-Clide Engine (LLM, context, knowledge base)
-  ↕
-Escalation Router → Telegram / Dashboard / Email
-```
-
-### Package structure
-
-```
-packages/chat-widget/
-├── src/
-│   ├── index.ts      # SDK class, singleton, DOM injection
-│   ├── types.ts      # TypeScript types and enums
-│   ├── chat.ts       # Chat interaction API
-│   └── loader.ts     # Inline loader (served from CDN)
-├── dist/             # Built output (ESM + UMD)
-├── package.json
-├── tsconfig.json
-├── rollup.config.mjs
-└── README.md
-```
-
-### Design decisions
-
-- **Singleton pattern** — mirrors Crisp SDK convention (`window.$cliChat`)
-- **Shadow DOM** — style encapsulation, no CSS conflicts with host page
-- **Dual build** — ESM for bundlers, UMD for script tags
-- **Zero dependencies** — vanilla TypeScript, < 15KB gzipped target
-- **Fetch transport** — no WebSocket dependency for MVP; upgrade path to WSS
+- Zero runtime dependencies
+- Shadow DOM encapsulation (no CSS conflicts)
+- Under 15KB gzipped
+- Singleton pattern with command queue
+- TypeScript with full type exports
 
 ## Build
 
 ```bash
-npm install
-npm run build
-```
-
-Outputs:
-- `dist/cli-chat.esm.js` — ES module build
-- `dist/cli-chat.umd.cjs` — UMD build (works in browsers via script tag)
-- `dist/index.d.ts` — TypeScript declarations
-
-## Development
-
-```bash
-npm run dev        # Watch mode
-npm run typecheck  # Type checking
-npm run lint       # ESLint
+npm run build    # ESM + CJS + UMD
+npm run dev      # Watch mode
 ```
 
 ## License
 
-MIT — cli.cloud
+MIT
